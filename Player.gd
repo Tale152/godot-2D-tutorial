@@ -3,17 +3,20 @@ extends Area2D
 signal hit
 export var speed = 400 # How fast the player will move (pixels/sec).
 var screen_size # Size of the game window
+var intra_frame_mouse_delta
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
+	intra_frame_mouse_delta = Vector2.ZERO
 	hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var velocity = Vector2.ZERO # The player's movement vector
+	var velocity = intra_frame_mouse_delta
+	
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("move_left"):
@@ -22,6 +25,8 @@ func _process(delta):
 		velocity.y += 1
 	if Input.is_action_pressed("move_up"):
 		velocity.y -= 1
+		
+	intra_frame_mouse_delta = Vector2.ZERO
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
@@ -40,8 +45,11 @@ func _process(delta):
 	elif velocity.y != 0:
 		$AnimatedSprite.animation = "walk"
 		$AnimatedSprite.flip_v = velocity.y > 0
-
-
+			
+func _input(event):
+	if event is InputEventScreenDrag:
+		intra_frame_mouse_delta += event.relative
+		
 func _on_Player_body_entered(body):
 	hide()
 	emit_signal("hit")
