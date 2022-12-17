@@ -30,7 +30,7 @@ anchor_bottom = 0.5
 margin_top = -39.0
 margin_bottom = 39.0
 custom_fonts/font = SubResource( 1 )
-text = "Dodge the Creeps!"
+text = "INSTRUCTIONS"
 align = 1
 autowrap = true
 
@@ -45,7 +45,7 @@ margin_right = 90.0
 margin_bottom = -100.0
 custom_fonts/font = SubResource( 1 )
 shortcut = SubResource( 3 )
-text = "Start"
+text = "START_GAME"
 
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
